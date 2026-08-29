@@ -1,0 +1,12 @@
+{
+    "name": "mousr/templates",
+    "description": "A strict and simple template engine for PHP",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Mousr\\Templates\\": "src/"
+        }
+    },
+    "require": {}
+}
