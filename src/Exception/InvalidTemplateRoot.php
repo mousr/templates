@@ -2,4 +2,4 @@
 
 namespace Mousr\Templates\Exception;
 
-class InvalidTemplateRoot extends TemplateException {}
+final class InvalidTemplateRoot extends TemplateException {}

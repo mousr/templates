@@ -2,4 +2,4 @@
 
 namespace Mousr\Templates\Exception;
 
-final class TemplateNotFound extends TemplateException {}
+final class MissingContext extends TemplateException {}
