@@ -2,6 +2,7 @@
 
 namespace Mousr\Templates;
 
+use Mousr\Templates\Exception\BufferException;
 use Mousr\Templates\Exception\InvalidTemplateRoot;
 use Mousr\Templates\Exception\TemplateNotFound;
 
@@ -35,10 +36,15 @@ final readonly class Renderer {
         require $realPath;
     }
 
-    /** @throws TemplateNotFound */
+    /** @throws TemplateNotFound|BufferException */
     public function toString(string $path, ViewContext $context): string {
         ob_start();
         $this->render($path, $context);
-        return ob_get_clean();
+        $output = ob_get_clean();
+        if ($output === false) {
+            throw new BufferException();
+        }
+
+        return $output;
     }
 }
