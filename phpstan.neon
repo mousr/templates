@@ -1,0 +1,25 @@
+parameters:
+    tmpDir: ./cache/.phpstan.result.cache
+    level: 10
+    paths:
+        - src
+    phpVersion: 80500 # Lowest currently supported version
+    treatPhpDocTypesAsCertain: false
+    checkBenevolentUnionTypes: true
+    reportPossiblyNonexistentGeneralArrayOffset: true
+    reportPossiblyNonexistentConstantArrayOffset: true
+    reportWrongPhpDocTypeInVarTag: true
+    reportAnyTypeWideningInVarTag: true
+    checkMissingOverrideMethodAttribute: true
+    exceptions:
+        implicitThrows: false
+        reportUncheckedExceptionDeadCatch: true
+        uncheckedExceptionRegexes:
+            - '#^PHPUnit\\#'
+        check:
+            missingCheckedExceptionInThrows: true
+            tooWideThrowType: true
+includes:
+    - phar://phpstan.phar/conf/bleedingEdge.neon
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
