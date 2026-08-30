@@ -8,6 +8,11 @@
             "Mousr\\Templates\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Mousr\\Templates\\Tests\\": "tests/"
+        }
+    },
     "require": {
         "php": "^8.5"
     },
@@ -15,11 +20,13 @@
         "friendsofphp/php-cs-fixer": "^3.95",
         "phpstan/phpstan": "^2.2",
         "phpstan/phpstan-strict-rules": "^2.0",
-        "phpstan/phpstan-deprecation-rules": "^2.0"
+        "phpstan/phpstan-deprecation-rules": "^2.0",
+        "phpunit/phpunit": "^13.3"
     },
     "scripts": {
         "cs": "php-cs-fixer fix --allow-risky=yes --dry-run",
         "cs:fix": "php-cs-fixer fix --allow-risky=yes",
-        "stan": "phpstan analyse --memory-limit 4G -v"
+        "stan": "phpstan analyse --memory-limit 4G -v",
+        "unit": "phpunit --testsuite=Unit"
     }
 }
