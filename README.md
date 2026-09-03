@@ -2,6 +2,8 @@
 
 A strict and simple template engine for PHP
 
+> This package should not be used without its corresponding PHPStan extension in a merge-blocking pipeline
+
 To get started, run:
 
 ```bash
@@ -27,14 +29,16 @@ To make sure our templates are in strict mode and that your IDE recognizes all v
 
 ```php
 <?php declare(strict_types=1);
-mousr($encoding, $renderer, $escaper, $context, \FQN\Of\Your\ContextClass::class);
+\Mousr\Templates\Assert::template($encoding, $renderer, $escaper, $context, BaseLayout::class);
 ?>
 <html lang="en"></html>
 ```
 
+This does several things: It makes sure that all the variables should always be present when rendering Mousr templates are actually present, and of the correct type. That in turn results in your IDE and PHPStan understanding that these variables exist and of what type they are.
+
 ## The template Context
 
-Each template has a `ViewContext`. These are predefined object structures tagged with the `ViewContext` interface. For example:
+Each template has a `ViewContext`;
 
 ```php
 final readonly class BaseLayout implements ViewContext {
@@ -44,6 +48,8 @@ final readonly class BaseLayout implements ViewContext {
 }
 ```
 
+You're free to use any type of PHP class here, as long as you implement the `ViewContext` interface. This interface doesn't enforce any methods, and just exists to tag the classes that can be used as ViewContext objects.
+
 These objects are passed when rendering a template:
 
 ```php
@@ -51,29 +57,15 @@ These objects are passed when rendering a template:
     ->render(__DIR__ . '/base-layout.html.php', new BaseLayout('bar'));
 ```
 
-To get autocomplete and static analysis support in these templates, one can then add the type assertion at the top of the template for the specific view class that's expected:
-
-```php
-<?php declare(strict_types=1);
-mousr($encoding, $renderer, $escaper, $context, \BaseLayout::class);
-?>
-```
+To get autocomplete and static analysis support in these templates, you should make sure you specify the specific view class you expect as the fifth argument for the template method.
 
 ## Escaping
 
-As there is no transpiling to HTML and you'll be writing HTML directly, it does mean that you'll also need to do escaping yourself. All templates get an instance of `Escaper` available in their global scope, as variable `$escaper`. There are several methods available for several contexts: `->inline()`, `->attr()`, `->url()` and `->js()`. Let's start with a simple example for the main template, we'll need to set our charset for our HTML:
+There's no auto escaping in this library. This is intentional. Auto-escaping gives a false sense of security. Escaping in HTML is highly dependent on context, and should happen differently in attributes, JavaScript, CSS and inline. By making escaping explicit, we can ensure we always escape for the right context.
 
 ```php
-<?php declare(strict_types=1);
-mousr($encoding, $renderer, $escaper, $context, \FQN\Of\Your\ContextClass::class);
-?>
-<html lang="en">
-    <head>
-        <meta charset="<?= $escaper->attr($encoding) ?>">
-    </head>
-    <body>
-    </body>
-</html>
+<a href="<?= $escaper->url($context->url) ?>">url</a>
+<a href="http://example.com"><?= $escaper->inline($context->linkText) ?></a>
 ```
 
-Please note that the charset is needed for escaping as well. If you want to use a different charset, you can override it when constructing the `Renderer` class.
+Make sure you use the mousr/templates-phpstan-extension to check that all the necessary escaping is there!

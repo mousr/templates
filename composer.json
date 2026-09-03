@@ -6,10 +6,7 @@
     "autoload": {
         "psr-4": {
             "Mousr\\Templates\\": "src/"
-        },
-        "files": [
-            "functions.php"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
