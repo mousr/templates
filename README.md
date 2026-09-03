@@ -10,7 +10,7 @@ composer require mousr/templates
 
 And to also install the corresponding PHPStan extension, run:
 ```bash
-composer require mousr/temlates-phpstan-extension --dev
+composer require mousr/templates-phpstan-extension --dev
 ```
 
 ## Why this package?
