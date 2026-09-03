@@ -26,12 +26,7 @@ You're free to choose any file extension you want, but it's recommended to end w
 To make sure our templates are in strict mode and that your IDE recognizes all variables, it's recommended to start your templates with the following section: 
 
 ```php
-<?php declare(strict_types=1);
-assert(isset($encoding) && is_string($encoding));
-assert(isset($renderer) && $renderer instanceof \Mousr\Templates\Renderer);
-assert(isset($escaper) && $escaper instanceof \Mousr\Templates\Escaper);
-assert(isset($context) && $context instanceof \FQN\Of\Your\ViewModel);
-?>
+<?php declare(strict_types=1); mousr($encoding, $renderer, $escaper, $context, \FQN\Of\Your\ContextClass::class); ?>
 <html lang="en"></html>
 ```
 
@@ -57,10 +52,7 @@ These objects are passed when rendering a template:
 To get autocomplete and static analysis support in these templates, one can then add the type assertion at the top of the template for the specific view class that's expected:
 
 ```php
-<?php
-/** */
-assert(isset($context) && $context instanceof \BaseLayout);
-/**  */
+<?php declare(strict_types=1); mousr($encoding, $renderer, $escaper, $context, \BaseLayout::class); ?>
 ?>
 ```
 
@@ -69,12 +61,7 @@ assert(isset($context) && $context instanceof \BaseLayout);
 As there is no transpiling to HTML and you'll be writing HTML directly, it does mean that you'll also need to do escaping yourself. All templates get an instance of `Escaper` available in their global scope, as variable `$escaper`. There are several methods available for several contexts: `->inline()`, `->attr()`, `->url()` and `->js()`. Let's start with a simple example for the main template, we'll need to set our charset for our HTML:
 
 ```php
-<?php declare(strict_types=1);
-assert(isset($encoding) && is_string($encoding));
-assert(isset($renderer) && $renderer instanceof \Mousr\Templates\Renderer);
-assert(isset($escaper) && $escaper instanceof \Mousr\Templates\Escaper);
-assert(isset($context) && $context instanceof \FQN\Of\Your\ViewModel);
-?>
+<?php declare(strict_types=1); mousr($encoding, $renderer, $escaper, $context, \FQN\Of\Your\ContextClass::class); ?>
 <html lang="en">
     <head>
         <meta charset="<?= $escaper->attr($encoding) ?>">
