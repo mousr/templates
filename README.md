@@ -1,6 +1,17 @@
-# templates
+# mousr/templates
 
 A strict and simple template engine for PHP
+
+To get started, run:
+
+```bash
+composer require mousr/templates
+```
+
+And to also install the corresponding PHPStan extension, run:
+```bash
+composer require mousr/temlates-phpstan-extension --dev
+```
 
 ## Why this package?
 
