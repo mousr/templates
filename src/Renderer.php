@@ -10,7 +10,10 @@ final readonly class Renderer {
     private string $templateRoot;
 
     /** @throws InvalidTemplateRoot */
-    public function __construct(string $templateRoot, private string $encoding = 'utf-8') {
+    public function __construct(
+        string $templateRoot,
+        private Escaper $escaper = new Escaper('utf-8'),
+    ) {
         $realPath = realpath($templateRoot);
         if ($realPath === false) {
             throw new InvalidTemplateRoot($templateRoot);
@@ -30,7 +33,7 @@ final readonly class Renderer {
         extract([
             'context' => $context,
             'renderer' => $this,
-            'escaper' => new Escaper($this->encoding),
+            'escaper' => $this->escaper,
         ], EXTR_SKIP);
         require $realPath;
     }
