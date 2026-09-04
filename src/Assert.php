@@ -12,21 +12,25 @@ final readonly class Assert {
      * means we can use a shorter function call syntax across all our templates.
      *
      * @template T of ViewContext
-     * @param class-string<T> $contextType
+     * @param class-string<T>|null $contextType
      * @throws InvalidType
      *
      * @param-out Renderer $renderer
      * @param-out Escaper $escaper
-     * @param-out T $context
+     * @param-out ($contextType is null ? null : T) $context
      */
     public static function template(
         ?Renderer    &$renderer,
         ?Escaper     &$escaper,
         ?ViewContext &$context,
-        string       $contextType,
+        ?string      $contextType,
     ): void {
-        $renderer instanceof Renderer || throw new InvalidType('$renderer', $renderer, Renderer::class);
-        $escaper instanceof Escaper || throw new InvalidType('$escaper', $escaper, Escaper::class);
-        $context instanceof $contextType || throw new InvalidType('$context', $context, $contextType);
+        $renderer instanceof Renderer || throw new InvalidType('renderer', $renderer, Renderer::class);
+        $escaper instanceof Escaper || throw new InvalidType('escaper', $escaper, Escaper::class);
+        if ($contextType === null) {
+            $context === null || throw new InvalidType('context', $context, null);
+        } else {
+            $context instanceof $contextType || throw new InvalidType('context', $context, $contextType);
+        }
     }
 }

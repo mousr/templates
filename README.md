@@ -21,7 +21,7 @@ With Blade or Twig, static analysis is an afterthought. With native PHP template
 
 ## File extensions
 
-You're free to choose any file extension you want, but it's recommended to end with `.{filetype}.php` to make sure all your tools pick them up as PHP files. We'll use `.html.php` for HTML templates, and `.xml.php` for XML templates in this readme.
+You're free to choose any file extension you want, but it's recommended to end with `.{filetype}.php` to make sure all your tools pick them up as PHP files. We'll use `.html.php` for HTML templates, and `.xml.php` for XML templates in this README.
 
 ## Writing a template
 
@@ -34,7 +34,25 @@ To make sure our templates are in strict mode and that your IDE recognizes all v
 <html lang="en"></html>
 ```
 
-This does several things: It ensures that the `$renderer`, `$escaper` and `$context` variables are present when rendering Mousr templates, and of the correct type. The fourth parameter is a class-string of the View Context class you create. That in turn results in your IDE and PHPStan understanding that these variables exist and of what type they are.
+This does several things: It ensures that the `$renderer` and `$escaper` variables are present when rendering Mousr templates, and of the correct type. The fourth parameter is a class-string of the View Context class you create. If you set it to a class-string, it will ensure that the variable `$context` is available and of the correct type. That in turn results in your IDE and PHPStan understanding that these variables exist and of what type they are.
+
+## Rendering a template
+
+Templates are rendered by calling the `render` method, which directly outputs:
+
+```php
+(new \Mousr\Templates\Renderer(__DIR__))
+    ->render(__DIR__ . '/base-layout.html.php', new BaseLayout('bar'));
+```
+
+If you want to retrieve the rendered template as a string instead of directly outputting you can use the `toString` method:
+
+```php
+$html = (new \Mousr\Templates\Renderer(__DIR__))
+    ->toString(__DIR__ . '/base-layout.html.php', new BaseLayout('bar'));
+```
+
+For both the `render` and the `toString` method, the 2nd parameter `$context` is passed in most cases but can be omitted if your template doesn't require a ViewClass.
 
 ## The template Context
 
@@ -50,19 +68,7 @@ final readonly class BaseLayout implements ViewContext {
 
 You're free to use any type of PHP class here, as long as you implement the `ViewContext` interface. This interface doesn't enforce any methods, and just exists to tag the classes that can be used as ViewContext objects.
 
-These objects are passed when rendering a template:
-
-```php
-(new \Mousr\Templates\Renderer(__DIR__))
-    ->render(__DIR__ . '/base-layout.html.php', new BaseLayout('bar'));
-```
-
-Or if you want to retrieve the rendered template as a string instead of directly outputting:
-
-```php
-$html = (new \Mousr\Templates\Renderer(__DIR__))
-    ->toString(__DIR__ . '/base-layout.html.php', new BaseLayout('bar'));
-```
+These objects are passed when rendering a template.
 
 ## Escaping
 

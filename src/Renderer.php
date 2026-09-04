@@ -20,7 +20,7 @@ final readonly class Renderer {
     }
 
     /** @throws TemplateNotFound */
-    public function render(string $path, ViewContext $context): void {
+    public function render(string $path, ?ViewContext $context = null): void {
         if (($realPath = realpath($path)) === false
             || is_file($realPath) === false
             || str_starts_with($realPath, $this->templateRoot) === false) {
@@ -36,7 +36,7 @@ final readonly class Renderer {
     }
 
     /** @throws TemplateNotFound|BufferException */
-    public function toString(string $path, ViewContext $context): string {
+    public function toString(string $path, ?ViewContext $context = null): string {
         ob_start();
         $this->render($path, $context);
         $output = ob_get_clean();
