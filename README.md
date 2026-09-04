@@ -29,7 +29,7 @@ To make sure our templates are in strict mode and that your IDE recognizes all v
 
 ```php
 <?php declare(strict_types=1);
-\Mousr\Templates\Assert::template($encoding, $renderer, $escaper, $context, BaseLayout::class);
+\Mousr\Templates\Assert::template($renderer, $escaper, $context, BaseLayout::class);
 ?>
 <html lang="en"></html>
 ```

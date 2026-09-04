@@ -12,19 +12,16 @@ final readonly class Assert {
      * @template T of \Mousr\Templates\ViewContext
      * @param class-string<T> $contextType
      *
-     * @phpstan-assert string $encoding
      * @phpstan-assert \Mousr\Templates\Renderer $renderer
      * @phpstan-assert \Mousr\Templates\Escaper $escaper
      * @phpstan-assert T $context
      */
     public static function template(
-        ?string &$encoding,
         ?\Mousr\Templates\Renderer &$renderer,
         ?\Mousr\Templates\Escaper &$escaper,
         ?\Mousr\Templates\ViewContext &$context,
         string $contextType,
     ): void {
-        is_string($encoding) || throw new \Mousr\Templates\Exception\InvalidType($encoding);
         $renderer instanceof \Mousr\Templates\Renderer || throw new \Mousr\Templates\Exception\InvalidType($renderer);
         $escaper instanceof \Mousr\Templates\Escaper || throw new \Mousr\Templates\Exception\InvalidType($escaper);
         $context instanceof $contextType || throw new \Mousr\Templates\Exception\InvalidType($context);
