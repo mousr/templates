@@ -31,7 +31,6 @@ final readonly class Renderer {
             'context' => $context,
             'renderer' => $this,
             'escaper' => new Escaper($this->encoding),
-            'encoding' => $this->encoding,
         ], EXTR_SKIP);
         require $realPath;
     }
