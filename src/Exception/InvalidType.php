@@ -3,7 +3,14 @@
 namespace Mousr\Templates\Exception;
 
 final class InvalidType extends TemplateException {
-    public function __construct(mixed &$variable) {
-        parent::__construct(($type = gettype($variable)) === 'object' ? $variable::class : $type);
+    public function __construct(string $variableName, mixed $variable, string $expectedType) {
+        parent::__construct(
+            sprintf(
+                'Expected variable %s to be of type %s but got %s',
+                $variableName,
+                $expectedType,
+                is_object($variable) ? $variable::class : gettype($variable),
+            ),
+        );
     }
 }

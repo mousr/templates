@@ -2,6 +2,8 @@
 
 namespace Mousr\Templates;
 
+use Mousr\Templates\Exception\InvalidType;
+
 final readonly class Assert {
     /**
      * This function asserts that your template is called with the correct variables in the global scope.
@@ -9,21 +11,22 @@ final readonly class Assert {
      * creates a variable as null when it doesn't exist. This will then immediately fail validation, so
      * means we can use a shorter function call syntax across all our templates.
      *
-     * @template T of \Mousr\Templates\ViewContext
+     * @template T of ViewContext
      * @param class-string<T> $contextType
+     * @throws InvalidType
      *
-     * @phpstan-assert \Mousr\Templates\Renderer $renderer
-     * @phpstan-assert \Mousr\Templates\Escaper $escaper
-     * @phpstan-assert T $context
+     * @param-out Renderer $renderer
+     * @param-out Escaper $escaper
+     * @param-out T $context
      */
     public static function template(
-        ?\Mousr\Templates\Renderer &$renderer,
-        ?\Mousr\Templates\Escaper &$escaper,
-        ?\Mousr\Templates\ViewContext &$context,
-        string $contextType,
+        ?Renderer    &$renderer,
+        ?Escaper     &$escaper,
+        ?ViewContext &$context,
+        string       $contextType,
     ): void {
-        $renderer instanceof \Mousr\Templates\Renderer || throw new \Mousr\Templates\Exception\InvalidType($renderer);
-        $escaper instanceof \Mousr\Templates\Escaper || throw new \Mousr\Templates\Exception\InvalidType($escaper);
-        $context instanceof $contextType || throw new \Mousr\Templates\Exception\InvalidType($context);
+        $renderer instanceof Renderer || throw new InvalidType('$renderer', $renderer, Renderer::class);
+        $escaper instanceof Escaper || throw new InvalidType('$escaper', $escaper, Escaper::class);
+        $context instanceof $contextType || throw new InvalidType('$context', $context, $contextType);
     }
 }
