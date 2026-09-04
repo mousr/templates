@@ -2,4 +2,4 @@
 
 namespace Mousr\Templates\Exception;
 
-final class BufferException extends TemplateException {}
+final class ValueError extends TemplateException {}
