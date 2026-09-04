@@ -6,7 +6,7 @@ use JsonException;
 
 final readonly class Escaper {
     public function __construct(
-        private string $encoding,
+        public string $encoding,
     ) {}
 
     public function inline(string $string): string {
