@@ -17,7 +17,7 @@ composer require mousr/templates-phpstan-extension --dev
 
 ## Why this package?
 
-With Blade or Twig, static analysis is an afterthought. With native PHP templates static analysis just works. No more running over an AST to detect issues, no need for extra extensions in your IDE, no custom-built static analysis tools for your templates. All your native PHP tools just work out of the box!
+With Blade or Twig, static analysis is an afterthought. With native PHP templates, static analysis just works. No more custom parsing of our templates to check for issues, no need for extra extensions in your IDE. All your native PHP tools just work out of the box!
 
 ## File extensions
 
@@ -34,7 +34,7 @@ To make sure our templates are in strict mode and that your IDE recognizes all v
 <html lang="en"></html>
 ```
 
-This does several things: It makes sure that all the variables should always be present when rendering Mousr templates are actually present, and of the correct type. That in turn results in your IDE and PHPStan understanding that these variables exist and of what type they are.
+This does several things: It ensures that the `$renderer`, `$escaper` and `$context` variables are present when rendering Mousr templates, and of the correct type. The fourth parameter is a class-string of the View Context class you create. That in turn results in your IDE and PHPStan understanding that these variables exist and of what type they are.
 
 ## The template Context
 
@@ -57,7 +57,12 @@ These objects are passed when rendering a template:
     ->render(__DIR__ . '/base-layout.html.php', new BaseLayout('bar'));
 ```
 
-To get autocomplete and static analysis support in these templates, you should make sure you specify the specific view class you expect as the fifth argument for the template method.
+Or if you want to retrieve the rendered template as a string instead of directly outputting:
+
+```php
+$html = (new \Mousr\Templates\Renderer(__DIR__))
+    ->toString(__DIR__ . '/base-layout.html.php', new BaseLayout('bar'));
+```
 
 ## Escaping
 
