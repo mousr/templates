@@ -95,4 +95,29 @@ Using partials is really simple with this library. You can call the `toString` m
 
 ### Layouts
 
-Layouts are currently not implemented.
+Layouts can also be achieved by using the `$renderer->toString()` method to render a subtemplate to a string and passing the result to the viewContext:
+
+```php
+$renderer = new \Mousr\Templates\Renderer(__DIR__);
+$renderer->render(
+    __DIR__ . '/layout.html.php',
+    new \Layout($renderer->toString(__DIR__ . '/template.html.php'))
+);
+```
+
+In the layout, you can then output the subTemplate HTML directly:
+
+```php
+<?= $context->preEscapedHTML ?>
+```
+
+To mark the property as safe to use directly in the layout, we need to add the attribute `PreEscapedHTML` to inform our static analysis tool that we already did our escaping and we don't need to escape the HTML again;
+
+```php
+readonly class Layout implements ViewContext {
+    public function __construct(
+        #[PreEscapedHTML]
+        public string $preEscapedHTML,
+    ) {}
+}
+```
