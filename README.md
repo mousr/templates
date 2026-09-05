@@ -80,3 +80,19 @@ There's no auto escaping in this library. This is intentional. Auto-escaping giv
 ```
 
 Make sure you use the mousr/templates-phpstan-extension to check that all the necessary escaping is there!
+
+## Reusing templates
+
+There are two types of reusable templates: Partials (also called includes or fragments) and layouts (inheritance).
+
+### Partials
+
+Using partials is really simple with this library. You can call the `toString` method on the `$renderer` class to render a partial template:
+
+```php
+<?= $renderer->toString(__DIR__ . '/menu.html.php', $context->menu) ?>
+```
+
+### Layouts
+
+Layouts are currently not implemented.
